@@ -1,5 +1,26 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./vendor/css/app.min.css" rel="stylesheet" />
+    <script src="./vendor/js/canvas.min.js"></script>
+  </head>
   <body>
-    <h1>hello world</h1>
+    <button id="save">Save</button>
+    <button id="load">Load</button>
+    <input type="color" id="colorPicker" value="#ff0000" />
+    <div id="contextMenuMain">
+      <div id="changeColor">Change Color</div>
+      <div id="deleteObj">Delete Object</div>
+    </div>
+    <div id="contextMenuSelect">
+      <div id="changeColor">Change Color</div>
+      <div id="deleteObj">Delete Object</div>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas id="myCanvas"></canvas>
+    </div>
   </body>
 </html>
