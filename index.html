@@ -4,23 +4,563 @@
     <title></title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link href="./vendor/css/app.min.css" rel="stylesheet" />
     <script src="./vendor/js/canvas.min.js"></script>
   </head>
   <body>
-    <button id="save">Save</button>
-    <button id="load">Load</button>
-    <input type="color" id="colorPicker" value="#ff0000" />
-    <div id="contextMenuMain">
-      <div id="changeColor">Change Color</div>
-      <div id="deleteObj">Delete Object</div>
+    <svg width="0" height="0" class="hidden">
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 20 20"
+        id="delete"
+      >
+        <path
+          stroke-width="1.25"
+          d="M3.333 5.833h13.334M8.333 9.167v5M11.667 9.167v5M4.167 5.833l.833 10c0 .92.746 1.667 1.667 1.667h6.666c.92 0 1.667-.746 1.667-1.667l.833-10M7.5 5.833v-2.5c0-.46.373-.833.833-.833h3.334c.46 0 .833.373.833.833v2.5"
+        ></path>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 20 20"
+        id="duplicate"
+      >
+        <g stroke-width="1.25">
+          <path
+            d="M14.375 6.458H8.958a2.5 2.5 0 0 0-2.5 2.5v5.417a2.5 2.5 0 0 0 2.5 2.5h5.417a2.5 2.5 0 0 0 2.5-2.5V8.958a2.5 2.5 0 0 0-2.5-2.5Z"
+          ></path>
+          <path
+            clip-rule="evenodd"
+            d="M11.667 3.125c.517 0 .986.21 1.325.55.34.338.55.807.55 1.325v1.458H8.333c-.485 0-.927.185-1.26.487-.343.312-.57.75-.609 1.24l-.005 5.357H5a1.87 1.87 0 0 1-1.326-.55 1.87 1.87 0 0 1-.549-1.325V5c0-.518.21-.987.55-1.326.338-.34.807-.549 1.325-.549h6.667Z"
+          ></path>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="eraser"
+      >
+        <g stroke-width="1.5">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path
+            d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3"
+          ></path>
+          <path d="M18 13.3l-6.3 -6.3"></path>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="hand"
+      >
+        <g stroke-width="1.25">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M8 13v-7.5a1.5 1.5 0 0 1 3 0v6.5"></path>
+          <path d="M11 5.5v-2a1.5 1.5 0 1 1 3 0v8.5"></path>
+          <path d="M14 5.5a1.5 1.5 0 0 1 3 0v6.5"></path>
+          <path
+            d="M17 7.5a1.5 1.5 0 0 1 3 0v8.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7a69.74 69.74 0 0 1 -.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47"
+          ></path>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 20 20"
+        id="img"
+      >
+        <g stroke-width="1.25">
+          <path d="M12.5 6.667h.01"></path>
+          <path
+            d="M4.91 2.625h10.18a2.284 2.284 0 0 1 2.285 2.284v10.182a2.284 2.284 0 0 1-2.284 2.284H4.909a2.284 2.284 0 0 1-2.284-2.284V4.909a2.284 2.284 0 0 1 2.284-2.284Z"
+          ></path>
+          <path
+            d="m3.333 12.5 3.334-3.333c.773-.745 1.726-.745 2.5 0l4.166 4.166"
+          ></path>
+          <path
+            d="m11.667 11.667.833-.834c.774-.744 1.726-.744 2.5 0l1.667 1.667"
+          ></path>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 20 20"
+        id="link"
+      >
+        <g stroke-width="1.25">
+          <path
+            d="M8.333 11.667a2.917 2.917 0 0 0 4.167 0l3.333-3.334a2.946 2.946 0 1 0-4.166-4.166l-.417.416"
+          ></path>
+          <path
+            d="M11.667 8.333a2.917 2.917 0 0 0-4.167 0l-3.333 3.334a2.946 2.946 0 0 0 4.166 4.166l.417-.416"
+          ></path>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="mainmenu"
+      >
+        <g stroke-width="1.5">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="18" x2="20" y2="18"></line>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="rectangle"
+      >
+        <g stroke-width="1.5">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 20 20"
+        id="redo"
+      >
+        <path
+          d="M12.5 10.833 15.833 7.5 12.5 4.167M15.833 7.5H6.667a3.333 3.333 0 1 0 0 6.667H7.5"
+          stroke-width="1.25"
+        ></path>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="send-backward"
+      >
+        <g stroke-width="1.5">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M12 5l0 14"></path>
+          <path d="M16 9l-4 -4"></path>
+          <path d="M8 9l4 -4"></path>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="send-to-back"
+      >
+        <g stroke-width="1.5">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M12 10l0 10"></path>
+          <path d="M12 10l4 4"></path>
+          <path d="M12 10l-4 4"></path>
+          <path d="M4 4l16 0"></path>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="text"
+      >
+        <g stroke-width="1.5">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <line x1="4" y1="20" x2="7" y2="20"></line>
+          <line x1="14" y1="20" x2="21" y2="20"></line>
+          <line x1="6.9" y1="15" x2="13.8" y2="15"></line>
+          <line x1="10.2" y1="6.3" x2="16" y2="20"></line>
+          <polyline points="5 20 11 4 13 4 20 20"></polyline>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 20 20"
+        id="undo"
+      >
+        <path
+          d="M7.5 10.833 4.167 7.5 7.5 4.167M4.167 7.5h9.166a3.333 3.333 0 0 1 0 6.667H12.5"
+          stroke-width="1.25"
+        ></path>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 20 20"
+        id="zoom-in"
+      >
+        <path stroke-width="1.25" d="M10 4.167v11.666M4.167 10h11.666"></path>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 20 20"
+        id="zoom-out"
+      >
+        <path d="M5 10h10" stroke-width="1.25"></path>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="1.25"
+        viewBox="0 0 22 22"
+        id="arrow"
+      >
+        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path
+            d="M6 6l4.153 11.793a0.365 .365 0 0 0 .331 .207a0.366 .366 0 0 0 .332 -.207l2.184 -4.793l4.787 -1.994a0.355 .355 0 0 0 .213 -.323a0.355 .355 0 0 0 -.213 -.323l-11.787 -4.36z"
+          ></path>
+          <path d="M13.5 13.5l4.5 4.5"></path>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="bring-forward"
+      >
+        <g stroke-width="1.5">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M12 5l0 14"></path>
+          <path d="M16 9l-4 -4"></path>
+          <path d="M8 9l4 -4"></path>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="bring-to-forward"
+      >
+        <g stroke-width="1.5">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M12 10l0 10"></path>
+          <path d="M12 10l4 4"></path>
+          <path d="M12 10l-4 4"></path>
+          <path d="M4 4l16 0"></path>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="circle"
+      >
+        <g stroke-width="1.5">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <circle cx="12" cy="12" r="9"></circle>
+        </g>
+      </symbol>
+      <symbol
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        fill="none"
+        stroke-width="2"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        id="crop"
+      >
+        <g stroke-width="1.25">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M8 5v10a1 1 0 0 0 1 1h10"></path>
+          <path d="M5 8h10a1 1 0 0 1 1 1v10"></path>
+        </g>
+      </symbol>
+    </svg>
+    <!-- <div class="layout"> -->
+    <div class="mainmenu-toogle"></div>
+    <div class="menu vertical mainmenu"></div>
+    <div class="menu horizontal topbar">
+      <div class="menu-icon" data-click="data-menu-circle" id="load">
+        <svg class="icon">
+          <use xlink:href="#circle"></use>
+        </svg>
+      </div>
     </div>
-    <div id="contextMenuSelect">
-      <div id="changeColor">Change Color</div>
-      <div id="deleteObj">Delete Object</div>
+    <div class="menu vertical optionmenu">
+      <div class="menu-group stroke-color-group">
+        <label class="menu-label">Stroke</label>
+        <div class="group">
+          <div class="stroke-color" data-color="#1971c2"></div>
+          <div class="stroke-color" data-color="#f08c00"></div>
+        </div>
+      </div>
+      <div class="menu-group background-color-group">
+        <label class="menu-label">Background Color</label>
+        <div class="group">
+          <div class="background-color" data-color="#ffc9c9"></div>
+          <div class="background-color" data-color="#b2f2bb"></div>
+        </div>
+      </div>
+      <div class="menu-group stroke-width-group">
+        <label class="menu-label">Stroke Width</label>
+        <div class="group">
+          <div class="stroke-width menu-icon" data-width="1">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M4.167 10h11.666"
+                stroke="currentColor"
+                stroke-width="1.25"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </div>
+          <div class="stroke-width menu-icon" data-width="2">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M5 10h10"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </div>
+          <div class="stroke-width menu-icon" data-width="3">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M5 10h10"
+                stroke="currentColor"
+                stroke-width="3.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="zoom-undo-wrapper">
+      <div class="zoom-wrapper">
+        <div class="zoom-minus menu-icon">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+            viewBox="0 0 20 20"
+            class=""
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 10h10" stroke-width="1.25"></path>
+          </svg>
+        </div>
+        <div class="zoom-count"></div>
+        <div class="zoom-plus menu-icon">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+            viewBox="0 0 20 20"
+            class=""
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              stroke-width="1.25"
+              d="M10 4.167v11.666M4.167 10h11.666"
+            ></path>
+          </svg>
+        </div>
+      </div>
+      <div class="redo-undo">
+        <div class="undo menu-icon">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+            viewBox="0 0 20 20"
+            class=""
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M7.5 10.833 4.167 7.5 7.5 4.167M4.167 7.5h9.166a3.333 3.333 0 0 1 0 6.667H12.5"
+              stroke-width="1.25"
+            ></path>
+          </svg>
+        </div>
+        <div class="redo menu-icon">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+            viewBox="0 0 20 20"
+            class=""
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M12.5 10.833 15.833 7.5 12.5 4.167M15.833 7.5H6.667a3.333 3.333 0 1 0 0 6.667H7.5"
+              stroke-width="1.25"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
     <div class="canvas-wrapper">
       <canvas id="myCanvas"></canvas>
     </div>
+    <!-- <button id="save">Save</button>
+    <button id="load">Load</button>
+    <input type="color" id="colorPicker" value="#ff0000" />
+   -->
   </body>
 </html>
