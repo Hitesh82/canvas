@@ -11,7 +11,9 @@
       rel="stylesheet"
     />
     <link href="./vendor/css/app.min.css" rel="stylesheet" />
-    <script src="./vendor/js/canvas.min.js"></script>
+    <script src="./assets/js/fabric.min.js"></script>
+    <script src="./vendor/js/app.js"></script>
+    <!-- <script src="./vendor/js/canvas.min.js"></script> -->
   </head>
   <body>
     <svg width="0" height="0" class="hidden">
@@ -387,32 +389,220 @@
     <!-- <div class="layout"> -->
     <div class="mainmenu-toogle"></div>
     <div class="menu vertical mainmenu"></div>
+    <input type="file" id="imageFile" accept="image/*" />
+
     <div class="menu horizontal topbar">
-      <div class="menu-icon" data-click="data-menu-circle" id="load">
+      <div
+        class="menu-icon circle"
+        data-click="data-menu-circle"
+        id="circle-click"
+      >
         <svg class="icon">
           <use xlink:href="#circle"></use>
         </svg>
       </div>
+      <div class="menu-icon" data-click="data-menu-square" id="square-click">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          role="img"
+          viewBox="0 0 24 24"
+          class=""
+          fill="none"
+          stroke-width="2"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <g stroke-width="1.5">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+          </g>
+        </svg>
+      </div>
+      <div class="menu-icon" data-click="data-menu-diamond" id="diamond-click">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          role="img"
+          viewBox="0 0 24 24"
+          class=""
+          fill="none"
+          stroke-width="2"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <g stroke-width="1.5">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path
+              d="M10.5 20.4l-6.9 -6.9c-.781 -.781 -.781 -2.219 0 -3l6.9 -6.9c.781 -.781 2.219 -.781 3 0l6.9 6.9c.781 .781 .781 2.219 0 3l-6.9 6.9c-.781 .781 -2.219 .781 -3 0z"
+            ></path>
+          </g>
+        </svg>
+      </div>
+      <div
+        class="menu-icon image"
+        data-click="data-menu-image"
+        id="image-click"
+      >
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          role="img"
+          viewBox="0 0 20 20"
+          class=""
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <g stroke-width="1.25">
+            <path d="M12.5 6.667h.01"></path>
+            <path
+              d="M4.91 2.625h10.18a2.284 2.284 0 0 1 2.285 2.284v10.182a2.284 2.284 0 0 1-2.284 2.284H4.909a2.284 2.284 0 0 1-2.284-2.284V4.909a2.284 2.284 0 0 1 2.284-2.284Z"
+            ></path>
+            <path
+              d="m3.333 12.5 3.334-3.333c.773-.745 1.726-.745 2.5 0l4.166 4.166"
+            ></path>
+            <path
+              d="m11.667 11.667.833-.834c.774-.744 1.726-.744 2.5 0l1.667 1.667"
+            ></path>
+          </g>
+        </svg>
+      </div>
+      <div class="menu-icon" data-click="data-menu-arrow" id="arrow-click">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          role="img"
+          viewBox="0 0 24 24"
+          class=""
+          fill="none"
+          stroke-width="2"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <g stroke-width="1.5">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <line x1="15" y1="16" x2="19" y2="12"></line>
+            <line x1="15" y1="8" x2="19" y2="12"></line>
+          </g>
+        </svg>
+      </div>
+      <div class="menu-icon" data-click="data-menu-line" id="line-click">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          role="img"
+          viewBox="0 0 20 20"
+          class=""
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4.167 10h11.666" stroke-width="1.5"></path>
+        </svg>
+      </div>
+      <div class="menu-icon" data-click="data-menu-pencile" id="pencile-click">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          role="img"
+          viewBox="0 0 20 20"
+          class=""
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <g stroke-width="1.25">
+            <path
+              clip-rule="evenodd"
+              d="m7.643 15.69 7.774-7.773a2.357 2.357 0 1 0-3.334-3.334L4.31 12.357a3.333 3.333 0 0 0-.977 2.357v1.953h1.953c.884 0 1.732-.352 2.357-.977Z"
+            ></path>
+            <path d="m11.25 5.417 3.333 3.333"></path>
+          </g>
+        </svg>
+      </div>
+      <div class="menu-icon" data-click="data-menu-text" id="text-click">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          role="img"
+          viewBox="0 0 24 24"
+          class=""
+          fill="none"
+          stroke-width="2"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <g stroke-width="1.5">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <line x1="4" y1="20" x2="7" y2="20"></line>
+            <line x1="14" y1="20" x2="21" y2="20"></line>
+            <line x1="6.9" y1="15" x2="13.8" y2="15"></line>
+            <line x1="10.2" y1="6.3" x2="16" y2="20"></line>
+            <polyline points="5 20 11 4 13 4 20 20"></polyline>
+          </g>
+        </svg>
+      </div>
+      <div class="menu-icon" data-click="data-menu-erase" id="eraser-click">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          role="img"
+          viewBox="0 0 24 24"
+          class=""
+          fill="none"
+          stroke-width="2"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <g stroke-width="1.5">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path
+              d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3"
+            ></path>
+            <path d="M18 13.3l-6.3 -6.3"></path>
+          </g>
+        </svg>
+      </div>
     </div>
-    <div class="menu vertical optionmenu show">
+
+    <div class="menu vertical optionmenu">
       <div class="menu-group" id="stroke-color-group">
         <label class="menu-label">Stroke</label>
         <div class="group">
-          <div class="stroke-color-click" data-stroke-color="#1971c2"></div>
-          <div class="stroke-color-click" data-stroke-color="#f08c00"></div>
+          <div
+            class="stroke-color-click active menu-icon"
+            data-stroke-color="#1971c2"
+          ></div>
+          <div
+            class="stroke-color-click menu-icon"
+            data-stroke-color="#f08c00"
+          ></div>
         </div>
       </div>
       <div class="menu-group" id="background-group">
         <label class="menu-label">Background Color</label>
         <div class="group">
-          <div class="background-click" data-color="#ffc9c9"></div>
-          <div class="background-click" data-color="#b2f2bb"></div>
+          <div
+            class="background-click menu-icon active"
+            data-bg-color="#ffc9c9"
+          ></div>
+          <div class="background-click menu-icon" data-bg-color="#b2f2bb"></div>
         </div>
       </div>
       <div class="menu-group" id="stroke-group">
         <label class="menu-label">Stroke Width</label>
         <div class="group">
-          <div class="stroke-click menu-icon" data-stroke="1">
+          <div class="stroke-click menu-icon active" data-stroke-width="1">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -433,7 +623,7 @@
               ></path>
             </svg>
           </div>
-          <div class="stroke-click menu-icon" data-stroke="2">
+          <div class="stroke-click menu-icon" data-stroke-width="2">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -454,7 +644,7 @@
               ></path>
             </svg>
           </div>
-          <div class="stroke-click menu-icon" data-stroke="3">
+          <div class="stroke-click menu-icon" data-stroke-width="3">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -477,12 +667,85 @@
           </div>
         </div>
       </div>
+      <div class="menu-group" id="stroke-style">
+        <label class="menu-label">Stroke Style</label>
+        <div class="group">
+          <div
+            class="stroke-style-click menu-icon active"
+            data-stroke-style="normal"
+          >
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M4.167 10h11.666"
+                stroke="currentColor"
+                stroke-width="1.25"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </div>
+          <div class="stroke-style-click menu-icon" data-stroke-style="10, 5">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 24 24"
+              class=""
+              fill="none"
+              stroke-width="2"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g stroke-width="2">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M5 12h2"></path>
+                <path d="M17 12h2"></path>
+                <path d="M11 12h2"></path>
+              </g>
+            </svg>
+          </div>
+          <div class="stroke-style-click menu-icon" data-stroke-style="2, 4">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 24 24"
+              class=""
+              fill="none"
+              stroke-width="2"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g stroke-width="2">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M4 12v.01"></path>
+                <path d="M8 12v.01"></path>
+                <path d="M12 12v.01"></path>
+                <path d="M16 12v.01"></path>
+                <path d="M20 12v.01"></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
       <div class="menu-group" id="pattern-group">
         <label class="menu-label">Fill</label>
         <div class="group">
           <div
-            class="pattern-click menu-icon"
-            data-pattern="https://hitesh82.github.io/canvas/pattern-1.svg"
+            class="pattern-click menu-icon active"
+            data-pattern="https://upload.wikimedia.org/wikipedia/commons/7/70/Checkerboard_pattern.svg"
           >
             <svg
               aria-hidden="true"
@@ -527,12 +790,91 @@
               </g>
             </svg>
           </div>
+          <div class="pattern-click menu-icon" data-pattern="hachure">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g clip-path="url(#a)">
+                <path
+                  d="M5.879 2.625h8.242a3.254 3.254 0 0 1 3.254 3.254v8.242a3.254 3.254 0 0 1-3.254 3.254H5.88a3.254 3.254 0 0 1-3.254-3.254V5.88a3.254 3.254 0 0 1 3.254-3.254Z"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                ></path>
+                <mask
+                  id="FillCrossHatchIcon"
+                  maskUnits="userSpaceOnUse"
+                  x="-1"
+                  y="-1"
+                  width="22"
+                  height="22"
+                  style="mask-type: alpha"
+                >
+                  <path
+                    d="M2.426 15.044 15.044 2.426M7.383 20 20 7.383M0 12.617 12.617 0m-7.98 17.941L17.256 5.324m-2.211 12.25L2.426 4.956M20 12.617 7.383 0m5.234 20L0 7.383m17.941 7.98L5.324 2.745"
+                    stroke="currentColor"
+                    stroke-width="1.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </mask>
+                <g mask="url(#FillCrossHatchIcon)">
+                  <path
+                    d="M14.121 2H5.88A3.879 3.879 0 0 0 2 5.879v8.242A3.879 3.879 0 0 0 5.879 18h8.242A3.879 3.879 0 0 0 18 14.121V5.88A3.879 3.879 0 0 0 14.121 2Z"
+                    fill="currentColor"
+                  ></path>
+                </g>
+              </g>
+              <defs>
+                <clipPath id="a">
+                  <path fill="#fff" d="M0 0h20v20H0z"></path>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div class="pattern-click menu-icon" data-pattern="solid">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g clip-path="url(#a)">
+                <path
+                  d="M4.91 2.625h10.18a2.284 2.284 0 0 1 2.285 2.284v10.182a2.284 2.284 0 0 1-2.284 2.284H4.909a2.284 2.284 0 0 1-2.284-2.284V4.909a2.284 2.284 0 0 1 2.284-2.284Z"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                ></path>
+              </g>
+              <defs>
+                <clipPath id="a">
+                  <path fill="#fff" d="M0 0h20v20H0z"></path>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
         </div>
       </div>
       <div class="menu-group" id="edge-group">
         <label class="menu-label">Edges</label>
         <div class="group">
-          <div class="edge-click menu-icon" data-edge="sharp">
+          <div
+            class="edge-click menu-icon active"
+            data-edge="sharp"
+            data-radius="0"
+          >
             <svg
               aria-hidden="true"
               focusable="false"
@@ -560,7 +902,7 @@
               <path d="M16.6667 16.6667V16.6767"></path>
             </svg>
           </div>
-          <div class="edge-click menu-icon" data-edge="round">
+          <div class="edge-click menu-icon" data-edge="round" data-radius="10">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -600,13 +942,26 @@
       <div class="menu-group" id="opacity-group">
         <label class="menu-label">Opacity</label>
         <div class="group">
-          <input type="text" value="0" name="opacity" />
+          <input
+            type="range"
+            id="cowbell"
+            name="cowbell"
+            min="0"
+            max="100"
+            value="90"
+            step="10"
+            class="opacity-input"
+          />
         </div>
       </div>
       <div class="menu-group" id="layer-group">
         <label class="menu-label">Layers</label>
         <div class="group">
-          <div class="layer-click menu-icon" data-layer="send-to-back">
+          <div
+            class="send-to-back menu-icon"
+            data-layer="send-to-back"
+            title="send-to-back"
+          >
             <svg
               aria-hidden="true"
               focusable="false"
@@ -629,7 +984,11 @@
               </g>
             </svg>
           </div>
-          <div class="layer-click menu-icon" data-layer="send-backward">
+          <div
+            class="send-backward menu-icon"
+            data-layer="send-backward"
+            title="send-backward"
+          >
             <svg
               aria-hidden="true"
               focusable="false"
@@ -651,7 +1010,11 @@
               </g>
             </svg>
           </div>
-          <div class="layer-click menu-icon" data-layer="bring-forward">
+          <div
+            class="bring-forward menu-icon"
+            data-layer="bring-forward"
+            title="bring-forward"
+          >
             <svg
               aria-hidden="true"
               focusable="false"
@@ -672,7 +1035,11 @@
               </g>
             </svg>
           </div>
-          <div class="layer-click menu-icon" data-layer="bring-front">
+          <div
+            class="bring-to-front menu-icon"
+            data-layer="bring-front"
+            title="bring-front"
+          >
             <svg
               aria-hidden="true"
               focusable="false"
@@ -699,7 +1066,10 @@
       <div class="menu-group" id="action-group">
         <label class="menu-label">Actions</label>
         <div class="group">
-          <div class="action-click menu-icon" data-action="duplicate">
+          <div
+            class="action-click menu-icon duplicate-obj"
+            data-action="duplicate"
+          >
             <svg
               aria-hidden="true"
               focusable="false"
@@ -722,7 +1092,7 @@
               </g>
             </svg>
           </div>
-          <div class="action-click menu-icon" data-action="delete">
+          <div class="action-click menu-icon delete-obj" data-action="delete">
             <svg
               aria-hidden="true"
               focusable="false"
