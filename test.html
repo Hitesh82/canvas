@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      canvas {
+        max-width: 100%;
+        border: 1px solid #ccc;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="file" id="upload" accept="image/*" />
+    <canvas id="canvas"></canvas>
+    <h3>Result</h3>
+    <pre id="output"></pre>
+    <script src="https://docs.opencv.org/4.x/opencv.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js
+"></script>
+    <script>
+      let cvReady = false;
+
+      /* ============================
+   OPENCV READY
+============================ */
+      cv.onRuntimeInitialized = () => {
+        cvReady = true;
+      };
+
+      /* ============================
+   IMAGE UPLOAD
+============================ */
+      document.getElementById("upload").addEventListener("change", (e) => {
+        if (!cvReady) {
+          alert("OpenCV not ready");
+          return;
+        }
+
+        const img = document.createElement("img");
+        img.style.display = "none"; // hidden
+        document.body.appendChild(img);
+
+        img.onload = () => {
+          const result = detectBlankSpaceLeftRight(img);
+          document.getElementById("output").textContent = JSON.stringify(
+            result,
+            null,
+            2
+          );
+
+          URL.revokeObjectURL(img.src);
+        };
+
+        img.src = URL.createObjectURL(e.target.files[0]);
+      });
+
+      /* ============================
+   BLANK SPACE DETECTION
+============================ */
+      function detectBlankSpaceLeftRight(img) {
+        const src = cv.imread(img);
+        const gray = new cv.Mat();
+        const edges = new cv.Mat();
+
+        // Convert to grayscale
+        cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+
+        // Detect edges (content indicator)
+        cv.Canny(gray, edges, 60, 160);
+
+        const width = edges.cols;
+        const height = edges.rows;
+
+        let leftBlank = 0;
+        let rightBlank = 0;
+
+        /* -------- LEFT SCAN -------- */
+        for (let x = 0; x < width; x++) {
+          let hasContent = false;
+
+          for (let y = 0; y < height; y++) {
+            if (edges.ucharPtr(y, x)[0] > 0) {
+              hasContent = true;
+              break;
+            }
+          }
+
+          if (hasContent) break;
+          leftBlank++;
+        }
+
+        /* -------- RIGHT SCAN -------- */
+        for (let x = width - 1; x >= 0; x--) {
+          let hasContent = false;
+
+          for (let y = 0; y < height; y++) {
+            if (edges.ucharPtr(y, x)[0] > 0) {
+              hasContent = true;
+              break;
+            }
+          }
+
+          if (hasContent) break;
+          rightBlank++;
+        }
+
+        src.delete();
+        gray.delete();
+        edges.delete();
+
+        return {
+          image: {
+            width,
+            height,
+          },
+          blankSpace: {
+            left: leftBlank,
+            right: rightBlank,
+          },
+          contentArea: {
+            startX: leftBlank,
+            endX: width - rightBlank,
+            width: width - leftBlank - rightBlank,
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

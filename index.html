@@ -6,14 +6,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@300;400;600&family=Montserrat:wght@300;400;600&family=Open+Sans:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+
     <link href="./vendor/css/app.min.css" rel="stylesheet" />
-    <script src="./vendor/js/canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fabric@5.3.0/dist/fabric.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bezier-js@6.1.4/dist/bezier.js"></script>
+    <script src="./vendor/js/app.js"></script>
+    <!-- <script src="./vendor/js/canvas.min.js"></script> -->
   </head>
   <body>
+    <button id="smooth-btn">Smooth</button>
+
+    <!-- <div class="card">
+      <label for="usd">Amount (CAD)</label>
+      <input id="usd" type="number" step="0.01" value="1" />
+      <div class="result">USD <span id="inr">—</span></div>
+      <div class="meta" id="rateInfo">Fetching rate…</div>
+      <button id="refresh">Refresh Rate</button>
+    </div>
+    <script>
+      // API endpoint we'll use: exchangerate.host convert endpoint
+      const convertApi = (amount = 1) =>
+        `https://api.exchangerate-api.com/v4/latest/JPY`;
+
+      // fallback static rate (used if API fails) — adjust as needed
+      const FALLBACK_RATE = 89.45; // example fallback; rates change frequently
+
+      const usdInput = document.getElementById("usd");
+      const inrSpan = document.getElementById("inr");
+      const rateInfo = document.getElementById("rateInfo");
+      const refreshBtn = document.getElementById("refresh");
+
+      // store last known rate
+      let lastRate = FALLBACK_RATE;
+
+      async function fetchRateAndConvert(amount) {
+        rateInfo.textContent = "Fetching live rate…";
+        try {
+          const res = await fetch(convertApi(amount), { cache: "no-store" });
+          if (!res.ok) throw new Error("Network response was not ok");
+          const data = await res.json();
+          // API returns a 'result' (converted amount) and info in 'info.rate'
+          if (
+            data &&
+            typeof data.result === "number" &&
+            data.info &&
+            typeof data.info.rate === "number"
+          ) {
+            lastRate = data.info.rate;
+            const inrVal = data.result;
+            inrSpan.textContent = inrVal.toLocaleString("en-IN", {
+              maximumFractionDigits: 2,
+            });
+            rateInfo.textContent = `1 USD = ${lastRate.toFixed(4)} INR (live)`;
+            return;
+          } else {
+            throw new Error("Unexpected API response");
+          }
+        } catch (err) {
+          // fallback conversion if API fails
+          const fallbackConverted = Number(amount) * lastRate;
+          inrSpan.textContent = fallbackConverted.toLocaleString("en-IN", {
+            maximumFractionDigits: 2,
+          });
+          rateInfo.textContent = `Using fallback rate: 1 USD = ${lastRate.toFixed(
+            4
+          )} INR`;
+          console.warn("Rate fetch failed, used fallback rate:", err);
+        }
+      }
+
+      // events
+      usdInput.addEventListener("input", () =>
+        fetchRateAndConvert(usdInput.value || 0)
+      );
+      refreshBtn.addEventListener("click", () =>
+        fetchRateAndConvert(usdInput.value || 0)
+      );
+
+      // initial fetch on load
+      fetchRateAndConvert(usdInput.value || 1);
+    </script> -->
     <svg width="0" height="0" class="hidden">
       <symbol
         aria-hidden="true"
@@ -392,14 +469,14 @@
     <div class="menu horizontal topbar">
       <div
         class="menu-icon circle"
-        data-click="data-menu-circle"
-        id="circle-click"
+        data-menu="data-menu-ellipse"
+        id="ellipse-click"
       >
         <svg class="icon">
           <use xlink:href="#circle"></use>
         </svg>
       </div>
-      <div class="menu-icon" data-click="data-menu-square" id="square-click">
+      <div class="menu-icon" data-menu="data-menu-square" id="square-click">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -418,7 +495,7 @@
           </g>
         </svg>
       </div>
-      <div class="menu-icon" data-click="data-menu-diamond" id="diamond-click">
+      <div class="menu-icon" data-menu="data-menu-diamond" id="diamond-click">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -439,11 +516,7 @@
           </g>
         </svg>
       </div>
-      <div
-        class="menu-icon image"
-        data-click="data-menu-image"
-        id="image-click"
-      >
+      <div class="menu-icon image" data-menu="data-menu-image" id="image-click">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -469,7 +542,7 @@
           </g>
         </svg>
       </div>
-      <div class="menu-icon" data-click="data-menu-arrow" id="arrow-click">
+      <div class="menu-icon" data-menu="data-menu-arrow" id="arrow-click">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -490,7 +563,7 @@
           </g>
         </svg>
       </div>
-      <div class="menu-icon" data-click="data-menu-line" id="line-click">
+      <div class="menu-icon" data-menu="data-menu-polyline" id="line-click">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -505,7 +578,7 @@
           <path d="M4.167 10h11.666" stroke-width="1.5"></path>
         </svg>
       </div>
-      <div class="menu-icon" data-click="data-menu-pencile" id="pencile-click">
+      <div class="menu-icon" data-menu="data-menu-pencile" id="pencile-click">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -526,7 +599,7 @@
           </g>
         </svg>
       </div>
-      <div class="menu-icon" data-click="data-menu-text" id="text-click">
+      <div class="menu-icon" data-menu="data-menu-text" id="text-click">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -549,7 +622,7 @@
           </g>
         </svg>
       </div>
-      <div class="menu-icon" data-click="data-menu-erase" id="eraser-click">
+      <div class="menu-icon" data-menu="data-menu-erase" id="eraser-click">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -592,6 +665,13 @@
         <div class="group">
           <div class="background-click menu-icon" data-bg-color="#ffc9c9"></div>
           <div class="background-click menu-icon" data-bg-color="#b2f2bb"></div>
+        </div>
+      </div>
+      <div class="menu-group" id="color-group">
+        <label class="menu-label">Color</label>
+        <div class="group">
+          <div class="color-click menu-icon" data-color="#1971c2"></div>
+          <div class="color-click menu-icon" data-color="#f08c00"></div>
         </div>
       </div>
       <div class="menu-group" id="stroke-group">
@@ -922,6 +1002,350 @@
                 <line x1="12" y1="20" x2="12" y2="20.01"></line>
                 <line x1="16" y1="20" x2="16" y2="20.01"></line>
                 <line x1="20" y1="20" x2="20" y2="20.01"></line>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="menu-group" id="arrow-type-group">
+        <label class="menu-label">Arrow Type</label>
+        <div class="group">
+          <div class="arrow-type-click menu-icon" data-type-arrow="normal">
+            <svg
+              viewBox="0 0 24 24"
+              class=""
+              fill="none"
+              stroke-width="2"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g>
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M6 18l12 -12"></path>
+                <path d="M18 10v-4h-4"></path>
+              </g>
+            </svg>
+          </div>
+          <div class="arrow-type-click menu-icon" data-type-arrow="curved">
+            <svg
+              viewBox="0 0 24 24"
+              class=""
+              fill="none"
+              stroke-width="2"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g>
+                <path d="M16,12L20,9L16,6"></path>
+                <path d="M6 20c0 -6.075 4.925 -11 11 -11h3"></path>
+              </g>
+            </svg>
+          </div>
+          <div class="arrow-type-click menu-icon" data-type-arrow="elbow">
+            <svg
+              viewBox="0 0 24 24"
+              class=""
+              fill="none"
+              stroke-width="2"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g>
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path
+                  d="M4,19L10,19C11.097,19 12,18.097 12,17L12,9C12,7.903 12.903,7 14,7L21,7"
+                ></path>
+                <path d="M18 4l3 3l-3 3"></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="menu-group" id="arrow-head-group">
+        <label class="menu-label">Arrow Head</label>
+        <div class="group">
+          <div class="arrow-head-click menu-icon" data-head-left="left">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 40 20"
+              class=""
+            >
+              <g
+                transform="translate(40, 0) scale(-1, 1)"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+              >
+                <path d="M34 10H6M34 10L27 5M34 10L27 15"></path>
+                <path d="M27.5 5L34.5 10L27.5 15"></path>
+              </g>
+            </svg>
+          </div>
+          <div class="arrow-head-click menu-icon" data-right-arrow="right">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 40 20"
+              class=""
+            >
+              <g
+                transform=""
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+              >
+                <path d="M34 10H6M34 10L27 5M34 10L27 15"></path>
+                <path d="M27.5 5L34.5 10L27.5 15"></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="menu-group" id="font-family-group">
+        <label class="menu-label">Color</label>
+        <div class="group">
+          <input type="color" id="text-color" value="#000000" />
+        </div>
+        <label class="menu-label">Font Family</label>
+        <div class="group">
+          <div class="font-family-click" data-font-family="pick">
+            <select id="font-family-select">
+              <option value="Roboto">Roboto</option>
+              <option value="Poppins">Poppins</option>
+              <option value="Montserrat">Montserrat</option>
+              <option value="Open Sans">Open Sans</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="menu-group" id="font-size-group">
+        <label class="menu-label">Font Size</label>
+        <div class="group">
+          <div class="font-size-click menu-icon" data-font-size="16">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g clip-path="url(#a)">
+                <path
+                  d="M14.167 6.667a3.333 3.333 0 0 0-3.334-3.334H9.167a3.333 3.333 0 0 0 0 6.667h1.666a3.333 3.333 0 0 1 0 6.667H9.167a3.333 3.333 0 0 1-3.334-3.334"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+              <defs>
+                <clipPath id="a">
+                  <path fill="#fff" d="M0 0h20v20H0z"></path>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div class="font-size-click menu-icon" data-font-size="22">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g clip-path="url(#a)">
+                <path
+                  d="M5 16.667V3.333L10 15l5-11.667v13.334"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+              <defs>
+                <clipPath id="a">
+                  <path fill="#fff" d="M0 0h20v20H0z"></path>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div class="font-size-click menu-icon" data-font-size="30">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g clip-path="url(#a)">
+                <path
+                  d="M5.833 3.333v13.334h8.334"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+              <defs>
+                <clipPath id="a">
+                  <path fill="#fff" d="M0 0h20v20H0z"></path>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div class="font-size-click menu-icon" data-font-size="40">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m1.667 3.333 6.666 13.334M8.333 3.333 1.667 16.667M11.667 3.333v13.334h6.666"
+                stroke="currentColor"
+                stroke-width="1.25"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="menu-group" id="free-hand-group">
+        <div class="group">
+          <label class="menu-label">Select Brush</label>
+          <div class="free-hand-click" data-free-hand="">
+            <select id="brush-select">
+              <option value="pencil">Pencil</option>
+              <option value="circle">Circle</option>
+              <option value="spray">Spray</option>
+              <option value="pattern">Pattern</option>
+            </select>
+          </div>
+          <div class="free-hand-click" data-free-hand="">
+            <label class="menu-label">Color</label>
+            <input id="color" type="color" value="#000000" />
+          </div>
+          <div class="free-hand-click" data-free-hand="">
+            <label class="menu-label">Brush Siz</label>
+            <input id="width" type="range" min="1" max="100" value="2" />
+            <span id="width-val">10</span>
+          </div>
+          <div class="free-hand-click" data-free-hand="">
+            <label class="menu-label">Spray Density</label>
+            <input
+              id="spray-density"
+              type="range"
+              min="10"
+              max="200"
+              value="60"
+            />
+            <span id="spray-val">60</span>
+          </div>
+        </div>
+      </div>
+      <div class="menu-group" id="text-align-group">
+        <label class="menu-label">Text Align</label>
+        <div class="group">
+          <div class="text-align-click menu-icon" data-text-align="left">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 24 24"
+              class=""
+              fill="none"
+              stroke-width="2"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <line x1="4" y1="8" x2="20" y2="8"></line>
+                <line x1="4" y1="12" x2="12" y2="12"></line>
+                <line x1="4" y1="16" x2="16" y2="16"></line>
+              </g>
+            </svg>
+          </div>
+          <div class="text-align-click menu-icon" data-text-align="center">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 24 24"
+              class=""
+              fill="none"
+              stroke-width="2"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <line x1="4" y1="8" x2="20" y2="8"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+                <line x1="6" y1="16" x2="18" y2="16"></line>
+              </g>
+            </svg>
+          </div>
+          <div class="text-align-click menu-icon" data-text-align="right">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 24 24"
+              class=""
+              fill="none"
+              stroke-width="2"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <line x1="4" y1="8" x2="20" y2="8"></line>
+                <line x1="10" y1="12" x2="20" y2="12"></line>
+                <line x1="8" y1="16" x2="20" y2="16"></line>
               </g>
             </svg>
           </div>
