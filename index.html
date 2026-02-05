@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title></title>
@@ -13,10 +13,19 @@
     />
     <script src="./assets/js/fabric.min.js"></script>
     <link href="./vendor/css/app.min.css" rel="stylesheet" />
-    <script src="./vendor/js/canvas.min.js"></script>
+    <script src="./vendor/js/app.js"></script>
+    <!-- <script src="./vendor/js/canvas.min.js"></script> -->
   </head>
   <body>
-    <button id="smooth-btn">Smooth</button>
+    <!-- <button id="smooth-btn">Smooth Line</button> -->
+    <!-- <button id="smooth-btn-arrow">Smooth Arrow</button>
+    <button id="leftSide">Left</button>
+    <button id="rightSide">Right</button>
+
+    <button data-shape="circle">◯</button>
+    <button data-shape="square">▢</button>
+    <button data-shape="diamond">◇</button>
+    <button data-shape="arrow">➤</button> -->
 
     <!-- <div class="card">
       <label for="usd">Amount (CAD)</label>
@@ -539,7 +548,7 @@
           </g>
         </svg>
       </div>
-      <div class="menu-icon" data-menu="data-menu-arrow" id="arrow-click">
+      <div class="menu-icon" data-menu="data-menu-arrow" id="arrows-click">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -575,7 +584,7 @@
           <path d="M4.167 10h11.666" stroke-width="1.5"></path>
         </svg>
       </div>
-      <div class="menu-icon" data-menu="data-menu-pencile" id="pencile-click">
+      <div class="menu-icon" data-menu="data-menu-pencile" id="pencil-click">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -648,6 +657,18 @@
         <label class="menu-label">Stroke</label>
         <div class="group">
           <div
+            class="stroke-color-click menu-icon active"
+            data-stroke-color="#1e1e1e"
+          ></div>
+          <div
+            class="stroke-color-click menu-icon"
+            data-stroke-color="#e03131"
+          ></div>
+          <div
+            class="stroke-color-click menu-icon"
+            data-stroke-color="#2f9e44"
+          ></div>
+          <div
             class="stroke-color-click menu-icon"
             data-stroke-color="#1971c2"
           ></div>
@@ -660,8 +681,15 @@
       <div class="menu-group" id="background-group">
         <label class="menu-label">Background Color</label>
         <div class="group">
+          <div
+            style="border: 1px solid #000"
+            class="background-click menu-icon active"
+            data-bg-color="transparent"
+          ></div>
           <div class="background-click menu-icon" data-bg-color="#ffc9c9"></div>
           <div class="background-click menu-icon" data-bg-color="#b2f2bb"></div>
+          <div class="background-click menu-icon" data-bg-color="#a5d8ff"></div>
+          <div class="background-click menu-icon" data-bg-color="#ffec99"></div>
         </div>
       </div>
       <div class="menu-group" id="color-group">
@@ -674,7 +702,7 @@
       <div class="menu-group" id="stroke-group">
         <label class="menu-label">Stroke Width</label>
         <div class="group">
-          <div class="stroke-click menu-icon" data-stroke-width="1">
+          <div class="stroke-click menu-icon active" data-stroke-width="1">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -742,7 +770,10 @@
       <div class="menu-group" id="stroke-style">
         <label class="menu-label">Stroke Style</label>
         <div class="group">
-          <div class="stroke-style-click menu-icon" data-stroke-style="normal">
+          <div
+            class="stroke-style-click menu-icon active"
+            data-stroke-style="normal"
+          >
             <svg
               aria-hidden="true"
               focusable="false"
@@ -812,7 +843,7 @@
       <div class="menu-group" id="pattern-group">
         <label class="menu-label">Fill</label>
         <div class="group">
-          <div
+          <!-- <div
             class="pattern-click menu-icon"
             data-pattern="https://upload.wikimedia.org/wikipedia/commons/7/70/Checkerboard_pattern.svg"
           >
@@ -858,7 +889,7 @@
                 ></path>
               </g>
             </svg>
-          </div>
+          </div> -->
           <div class="pattern-click menu-icon" data-pattern="hachure">
             <svg
               aria-hidden="true"
@@ -908,7 +939,56 @@
               </defs>
             </svg>
           </div>
-          <div class="pattern-click menu-icon" data-pattern="solid">
+          <div class="pattern-click menu-icon" data-pattern="cross-hatch">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g clip-path="url(#a)">
+                <path
+                  d="M5.879 2.625h8.242a3.254 3.254 0 0 1 3.254 3.254v8.242a3.254 3.254 0 0 1-3.254 3.254H5.88a3.254 3.254 0 0 1-3.254-3.254V5.88a3.254 3.254 0 0 1 3.254-3.254Z"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                ></path>
+                <mask
+                  id="FillCrossHatchIcon"
+                  maskUnits="userSpaceOnUse"
+                  x="-1"
+                  y="-1"
+                  width="22"
+                  height="22"
+                  style="mask-type: alpha"
+                >
+                  <path
+                    d="M2.426 15.044 15.044 2.426M7.383 20 20 7.383M0 12.617 12.617 0m-7.98 17.941L17.256 5.324m-2.211 12.25L2.426 4.956M20 12.617 7.383 0m5.234 20L0 7.383m17.941 7.98L5.324 2.745"
+                    stroke="currentColor"
+                    stroke-width="1.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </mask>
+                <g mask="url(#FillCrossHatchIcon)">
+                  <path
+                    d="M14.121 2H5.88A3.879 3.879 0 0 0 2 5.879v8.242A3.879 3.879 0 0 0 5.879 18h8.242A3.879 3.879 0 0 0 18 14.121V5.88A3.879 3.879 0 0 0 14.121 2Z"
+                    fill="currentColor"
+                  ></path>
+                </g>
+              </g>
+              <defs>
+                <clipPath id="a">
+                  <path fill="#fff" d="M0 0h20v20H0z"></path>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div class="pattern-click menu-icon active" data-pattern="solid">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -936,10 +1016,73 @@
           </div>
         </div>
       </div>
+      <!-- <div class="menu-group" id="sloppiness-group">
+        <label class="menu-label">Sloppiness</label>
+        <div class="group">
+          <div class="rough-click menu-icon active" data-sloppiness="0">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M2.5 12.038c1.655-.885 5.9-3.292 8.568-4.354 2.668-1.063.101 2.821 1.32 3.104 1.218.283 5.112-1.814 5.112-1.814"
+                stroke-width="1.25"
+              ></path>
+            </svg>
+          </div>
+          <div class="rough-click menu-icon" data-sloppiness="1">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M2.5 12.563c1.655-.886 5.9-3.293 8.568-4.355 2.668-1.062.101 2.822 1.32 3.105 1.218.283 5.112-1.814 5.112-1.814m-13.469 2.23c2.963-1.586 6.13-5.62 7.468-4.998 1.338.623-1.153 4.11-.132 5.595 1.02 1.487 6.133-1.43 6.133-1.43"
+                stroke-width="1.25"
+              ></path>
+            </svg>
+          </div>
+          <div class="rough-click menu-icon" data-sloppiness="1.5">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 20 20"
+              class=""
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M2.5 11.936c1.737-.879 8.627-5.346 10.42-5.268 1.795.078-.418 5.138.345 5.736.763.598 3.53-1.789 4.235-2.147M2.929 9.788c1.164-.519 5.47-3.28 6.987-3.114 1.519.165 1 3.827 2.121 4.109 1.122.281 3.839-2.016 4.606-2.42"
+                stroke-width="1.25"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div> -->
       <div class="menu-group" id="edge-group">
         <label class="menu-label">Edges</label>
         <div class="group">
-          <div class="edge-click menu-icon" data-edge="sharp" data-radius="0">
+          <div
+            class="edge-click menu-icon active"
+            data-edge="sharp"
+            data-radius="0"
+          >
             <svg
               aria-hidden="true"
               focusable="false"
@@ -1004,6 +1147,48 @@
           </div>
         </div>
       </div>
+      <div class="menu-group" id="line-type-group">
+        <label class="menu-label">Line Type</label>
+        <div class="group">
+          <div class="line-type-click menu-icon" data-type-arrow="normal">
+            <svg
+              viewBox="0 0 24 24"
+              class=""
+              fill="none"
+              stroke-width="2"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g>
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M6 18l12 -12"></path>
+                <path d="M18 10v-4h-4"></path>
+              </g>
+            </svg>
+          </div>
+          <div
+            class="line-type-click menu-icon"
+            data-type-arrow="curved"
+            id="smooth-btn-line"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class=""
+              fill="none"
+              stroke-width="2"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <g>
+                <path d="M16,12L20,9L16,6"></path>
+                <path d="M6 20c0 -6.075 4.925 -11 11 -11h3"></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
       <div class="menu-group" id="arrow-type-group">
         <label class="menu-label">Arrow Type</label>
         <div class="group">
@@ -1024,7 +1209,11 @@
               </g>
             </svg>
           </div>
-          <div class="arrow-type-click menu-icon" data-type-arrow="curved">
+          <div
+            class="arrow-type-click menu-icon"
+            data-type-arrow="curved"
+            id="smooth-btn-arrow"
+          >
             <svg
               viewBox="0 0 24 24"
               class=""
@@ -1040,7 +1229,7 @@
               </g>
             </svg>
           </div>
-          <div class="arrow-type-click menu-icon" data-type-arrow="elbow">
+          <!-- <div class="arrow-type-click menu-icon" data-type-arrow="elbow">
             <svg
               viewBox="0 0 24 24"
               class=""
@@ -1058,13 +1247,17 @@
                 <path d="M18 4l3 3l-3 3"></path>
               </g>
             </svg>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="menu-group" id="arrow-head-group">
         <label class="menu-label">Arrow Head</label>
-        <div class="group">
-          <div class="arrow-head-click menu-icon" data-head-left="left">
+        <div class="group" style="margin-bottom: 15px">
+          <div
+            class="arrow-head-click menu-icon"
+            data-head-left="left"
+            id="leftSide"
+          >
             <svg
               aria-hidden="true"
               focusable="false"
@@ -1083,7 +1276,11 @@
               </g>
             </svg>
           </div>
-          <div class="arrow-head-click menu-icon" data-right-arrow="right">
+          <div
+            class="arrow-head-click menu-icon"
+            data-right-arrow="right"
+            id="rightSide"
+          >
             <svg
               aria-hidden="true"
               focusable="false"
@@ -1102,6 +1299,13 @@
               </g>
             </svg>
           </div>
+        </div>
+        <label class="menu-label">Arrow Shape</label>
+        <div class="group">
+          <button data-shape="circle" class="menu-icon">◯</button>
+          <button data-shape="square" class="menu-icon">▢</button>
+          <button data-shape="diamond" class="menu-icon">◇</button>
+          <button data-shape="arrow" class="menu-icon">➤</button>
         </div>
       </div>
       <div class="menu-group" id="font-family-group">
@@ -1124,7 +1328,7 @@
       <div class="menu-group" id="font-size-group">
         <label class="menu-label">Font Size</label>
         <div class="group">
-          <div class="font-size-click menu-icon" data-font-size="16">
+          <div class="font-size-click menu-icon active" data-font-size="16">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -1231,27 +1435,30 @@
           </div>
         </div>
       </div>
-      <div class="menu-group" id="free-hand-group">
+      <!-- <div class="menu-group" id="free-hand-group">
         <div class="group">
           <label class="menu-label">Select Brush</label>
-          <div class="free-hand-click" data-free-hand="">
+          <div class="free-hand-click" data-free-brush="brush">
             <select id="brush-select">
-              <option value="pencil">Pencil</option>
-              <option value="circle">Circle</option>
-              <option value="spray">Spray</option>
-              <option value="pattern">Pattern</option>
+              <option value="Pencil">Pencil</option>
+              <option value="Circle">Circle</option>
+              <option value="Spray">Spray</option>
+               <option value="hline">Horizontal Lines</option>
+              <option value="vline">Vertical Lines</option>
+              <option value="square">Squares</option>
+              <option value="diamond">Diamonds</option>
             </select>
           </div>
-          <div class="free-hand-click" data-free-hand="">
+          <div class="free-hand-click" data-free-color="color">
             <label class="menu-label">Color</label>
             <input id="color" type="color" value="#000000" />
           </div>
-          <div class="free-hand-click" data-free-hand="">
-            <label class="menu-label">Brush Siz</label>
-            <input id="width" type="range" min="1" max="100" value="2" />
+          <div class="free-hand-click" data-free-brushSize="10">
+            <label class="menu-label">Brush Size</label>
+            <input id="brush-size" type="range" min="1" max="100" value="2" />
             <span id="width-val">10</span>
           </div>
-          <div class="free-hand-click" data-free-hand="">
+          <div class="free-hand-click" data-free-density="density">
             <label class="menu-label">Spray Density</label>
             <input
               id="spray-density"
@@ -1263,7 +1470,7 @@
             <span id="spray-val">60</span>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="menu-group" id="text-align-group">
         <label class="menu-label">Text Align</label>
         <div class="group">
@@ -1367,6 +1574,7 @@
         <label class="menu-label">Layers</label>
         <div class="group">
           <div
+            id="sendToBack"
             class="send-to-back menu-icon"
             data-layer="send-to-back"
             title="send-to-back"
@@ -1394,6 +1602,7 @@
             </svg>
           </div>
           <div
+            id="sendBackward"
             class="send-backward menu-icon"
             data-layer="send-backward"
             title="send-backward"
@@ -1420,6 +1629,7 @@
             </svg>
           </div>
           <div
+            id="bringForward"
             class="bring-forward menu-icon"
             data-layer="bring-forward"
             title="bring-forward"
@@ -1445,6 +1655,7 @@
             </svg>
           </div>
           <div
+            id="bringToFront"
             class="bring-to-front menu-icon"
             data-layer="bring-front"
             title="bring-front"
@@ -1618,6 +1829,13 @@
             ></path>
           </svg>
         </div>
+      </div>
+    </div>
+    <div class="import-export">
+      <button class="export-click btn">Export</button>
+      <div class="btn">
+        <input type="file" id="jsonUpload" />
+        <label for="jsonUpload">Import</label>
       </div>
     </div>
     <!-- </div> -->
