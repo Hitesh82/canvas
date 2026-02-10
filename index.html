@@ -15,86 +15,6 @@
     <script src="./vendor/js/app.min.js"></script>
   </head>
   <body>
-    <!-- <button id="smooth-btn">Smooth Line</button> -->
-    <!-- <button id="smooth-btn-arrow">Smooth Arrow</button>
-    <button id="leftSide">Left</button>
-    <button id="rightSide">Right</button>
-
-    <button data-shape="circle">◯</button>
-    <button data-shape="square">▢</button>
-    <button data-shape="diamond">◇</button>
-    <button data-shape="arrow">➤</button> -->
-
-    <!-- <div class="card">
-      <label for="usd">Amount (CAD)</label>
-      <input id="usd" type="number" step="0.01" value="1" />
-      <div class="result">USD <span id="inr">—</span></div>
-      <div class="meta" id="rateInfo">Fetching rate…</div>
-      <button id="refresh">Refresh Rate</button>
-    </div>
-    <script>
-      // API endpoint we'll use: exchangerate.host convert endpoint
-      const convertApi = (amount = 1) =>
-        `https://api.exchangerate-api.com/v4/latest/JPY`;
-
-      // fallback static rate (used if API fails) — adjust as needed
-      const FALLBACK_RATE = 89.45; // example fallback; rates change frequently
-
-      const usdInput = document.getElementById("usd");
-      const inrSpan = document.getElementById("inr");
-      const rateInfo = document.getElementById("rateInfo");
-      const refreshBtn = document.getElementById("refresh");
-
-      // store last known rate
-      let lastRate = FALLBACK_RATE;
-
-      async function fetchRateAndConvert(amount) {
-        rateInfo.textContent = "Fetching live rate…";
-        try {
-          const res = await fetch(convertApi(amount), { cache: "no-store" });
-          if (!res.ok) throw new Error("Network response was not ok");
-          const data = await res.json();
-          // API returns a 'result' (converted amount) and info in 'info.rate'
-          if (
-            data &&
-            typeof data.result === "number" &&
-            data.info &&
-            typeof data.info.rate === "number"
-          ) {
-            lastRate = data.info.rate;
-            const inrVal = data.result;
-            inrSpan.textContent = inrVal.toLocaleString("en-IN", {
-              maximumFractionDigits: 2,
-            });
-            rateInfo.textContent = `1 USD = ${lastRate.toFixed(4)} INR (live)`;
-            return;
-          } else {
-            throw new Error("Unexpected API response");
-          }
-        } catch (err) {
-          // fallback conversion if API fails
-          const fallbackConverted = Number(amount) * lastRate;
-          inrSpan.textContent = fallbackConverted.toLocaleString("en-IN", {
-            maximumFractionDigits: 2,
-          });
-          rateInfo.textContent = `Using fallback rate: 1 USD = ${lastRate.toFixed(
-            4
-          )} INR`;
-          console.warn("Rate fetch failed, used fallback rate:", err);
-        }
-      }
-
-      // events
-      usdInput.addEventListener("input", () =>
-        fetchRateAndConvert(usdInput.value || 0)
-      );
-      refreshBtn.addEventListener("click", () =>
-        fetchRateAndConvert(usdInput.value || 0)
-      );
-
-      // initial fetch on load
-      fetchRateAndConvert(usdInput.value || 1);
-    </script> -->
     <svg width="0" height="0" class="hidden">
       <symbol
         aria-hidden="true"
@@ -1014,7 +934,7 @@
           </div>
         </div>
       </div>
-      <!-- <div class="menu-group" id="sloppiness-group">
+      <div class="menu-group" id="sloppiness-group">
         <label class="menu-label">Sloppiness</label>
         <div class="group">
           <div class="rough-click menu-icon active" data-sloppiness="0">
@@ -1053,7 +973,7 @@
               ></path>
             </svg>
           </div>
-          <div class="rough-click menu-icon" data-sloppiness="1.5">
+          <div class="rough-click menu-icon" data-sloppiness="2">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -1072,7 +992,7 @@
             </svg>
           </div>
         </div>
-      </div> -->
+      </div>
       <div class="menu-group" id="edge-group">
         <label class="menu-label">Edges</label>
         <div class="group">
